@@ -9,11 +9,15 @@
           <el-input v-model="loginForm.mobile" placeholder="请输入手机号"></el-input>
         </el-form-item>
         <el-form-item prop="code">
-          <el-input v-model="loginForm.code" placeholder="请输入验证码" style="width:236px;margin-right:10px;"></el-input>
+          <el-input
+            v-model="loginForm.code"
+            placeholder="请输入验证码"
+            style="width:236px;margin-right:10px;"
+          ></el-input>
           <el-button>发送验证码</el-button>
         </el-form-item>
         <el-form-item>
-            <el-checkbox :value="true">我已阅读并同意用户协议和隐私条款</el-checkbox>
+          <el-checkbox :value="true">我已阅读并同意用户协议和隐私条款</el-checkbox>
         </el-form-item>
         <el-form-item>
           <el-form-item>
@@ -37,7 +41,7 @@ export default {
       callback()
     }
     return {
-    // 表单对象数据
+      // 表单对象数据
       loginForm: {
         mobile: '15027924165',
         code: '246810'
@@ -59,14 +63,21 @@ export default {
     // 成功会给valid进行校验，校验失败时element-ui会给默认的提示
     login () {
       // 对整个表单进行校验
-      this.$refs.loginForm.validate((valid) => {
+      this.$refs.loginForm.validate(valid => {
         if (valid) {
-        // 请求的登陆接口
-          this.$http.post('http://ttapi.research.itcast.cn/mp/v1_0/authorizations', this.loginForm).then(res => {
-            // 存储用户信息
-            store.setUser(res.data.data)
-            this.$router.push('/')
-          })
+          // 请求的登陆接口
+          this.$http
+            .post(
+              'http://ttapi.research.itcast.cn/mp/v1_0/authorizations',
+              this.loginForm
+            )
+            .then(res => {
+              // res 响应对象   包含响应主体
+              // console.log(res.data)
+              store.setUser(res.data.data)
+              // 跳转去首页
+              this.$router.push('/')
+            })
             .catch(() => {
               // 错误时的提示
               this.$message.error('手机号或者是验证码错误')

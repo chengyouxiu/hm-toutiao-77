@@ -5,7 +5,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import '@/style/index.less'
 
 import router from '@/router'
-import axios from 'axios'
+import axios from '@/api'
 Vue.prototype.$http = axios
 // 在控制台的提示信息  productionTip = false生成换环境提示为false
 Vue.config.productionTip = false
