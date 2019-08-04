@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import store from '@/store'
 export default {
   data () {
     // 自定义校验
@@ -61,10 +62,13 @@ export default {
       this.$refs.loginForm.validate((valid) => {
         if (valid) {
         // 请求的登陆接口
-          this.$https.post('http://ttapi.research.itcast.cn/mp/v1_0/authorizations', this.loginForm).then(res => {
+          this.$http.post('http://ttapi.research.itcast.cn/mp/v1_0/authorizations', this.loginForm).then(res => {
+            // 存储用户信息
+            store.setUser(res.data.data)
             this.$router.push('/')
           })
             .catch(() => {
+              // 错误时的提示
               this.$message.error('手机号或者是验证码错误')
             })
         }
