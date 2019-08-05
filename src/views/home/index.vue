@@ -48,15 +48,17 @@
       <el-header>
         <span class="el-icon-s-fold" @click="toggleMenu()"></span>
         <span class="text">江苏传智播客科技教育有限公司</span>
-        <el-dropdown class="my-dropdown">
+        <el-dropdown class="my-dropdown" @command="changeMenu">
           <span class="el-dropdown-link">
-            <img src="../../assets/images/avatar.jpg" alt />
-            用户名称
+            <img :src="photo" alt />
+            {{ name }}
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item icon="el-icon-setting">个人设置</el-dropdown-item>
-            <el-dropdown-item icon="el-icon-unlock">退出登陆</el-dropdown-item>
+            <!-- <el-dropdown-item icon="el-icon-setting" @click.native="setting()">个人设置</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-unlock" @click.native="logout()">退出登陆</el-dropdown-item> 跳转页面的方法一 -->
+             <el-dropdown-item icon="el-icon-setting" command="setting">个人设置</el-dropdown-item>
+            <el-dropdown-item icon="el-icon-unlock" command="logout">退出登陆</el-dropdown-item>
           </el-dropdown-menu>
         </el-dropdown>
       </el-header>
@@ -68,16 +70,47 @@
 </template>
 
 <script>
+import store from '@/store'
 export default {
   data () {
     // 按钮切换时导航栏所显示的大小 iscollapse为false默认宽度为200px
     return {
-      isCollapse: false
+      isCollapse: false,
+      name: '',
+      photo: ''
     }
+  },
+  // 获取本地用户信息
+  created () {
+    const user = store.getUser()
+    this.name = user.name
+    this.photo = user.photo
   },
   methods: {
     toggleMenu () {
       this.isCollapse = !this.isCollapse
+    },
+    /*   click是原生的点击事件要想在elementui中使用click相当于自定义事件，无法跳转
+    //   解决方法一把事件绑定位原生的事件在click后加事件修饰符 .native
+    setting () {
+      this.$router.push('/setting')
+    },
+    logout () {
+      store.clearUser()
+      this.$router.push({ name: 'login' })
+    } */
+
+    // 方法二给el-dropdown绑定自定义事件command事件不加括号是为了接受elementui给的默认参数
+    setting () {
+      this.$router.push('/setting')
+    },
+    logout () {
+      store.clearUser()
+      this.$router.push({ name: 'login' })
+    },
+    changeMenu (menuType) {
+      // menuType 是变量  值 setting  logout
+      this[menuType]()
     }
   }
 }
