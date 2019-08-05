@@ -31,6 +31,7 @@
 
 <script>
 import store from '@/store'
+// import { async } from 'q'
 export default {
   data () {
     // 自定义校验
@@ -63,10 +64,10 @@ export default {
     // 成功会给valid进行校验，校验失败时element-ui会给默认的提示
     login () {
       // 对整个表单进行校验
-      this.$refs.loginForm.validate(valid => {
+      this.$refs.loginForm.validate(async valid => {
         if (valid) {
           // 请求的登陆接口
-          this.$http
+          /* this.$http
             .post(
               'http://ttapi.research.itcast.cn/mp/v1_0/authorizations',
               this.loginForm
@@ -81,7 +82,15 @@ export default {
             .catch(() => {
               // 错误时的提示
               this.$message.error('手机号或者是验证码错误')
-            })
+            }) */
+          // 使用async和await
+          try {
+            const { data: { data } } = await this.$http.post('authorizations', this.loginForm)
+            store.setUser(data)
+            this.$router.push('/')
+          } catch (e) {
+            this.$message.error('手机号或者是验证码错误')
+          }
         }
       })
     }
