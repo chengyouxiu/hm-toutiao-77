@@ -6,6 +6,8 @@ import '@/style/index.less'
 
 import router from '@/router'
 import axios from '@/api'
+import myCom from '@/components'
+Vue.use(myCom)
 Vue.prototype.$http = axios
 // 在控制台的提示信息  productionTip = false生成换环境提示为false
 Vue.config.productionTip = false
