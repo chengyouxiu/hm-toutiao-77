@@ -1,6 +1,8 @@
 <template>
-    <div>
-        Setting
+    <div class="container">
+       <com-a></com-a>
+       <hr>
+        <com-b></com-b>
     </div>
 </template>
 
