@@ -71,6 +71,7 @@
 
 <script>
 import store from '@/store'
+import eventBus from '@/components/eventBus'
 export default {
   data () {
     // 按钮切换时导航栏所显示的大小 iscollapse为false默认宽度为200px
@@ -82,6 +83,12 @@ export default {
   },
   // 获取本地用户信息
   created () {
+    eventBus.$on('updateName', (name) => {
+      this.name = name
+    })
+    eventBus.$on('updatePhoto', (photo) => {
+      this.photo = photo
+    })
     const user = store.getUser()
     this.name = user.name
     this.photo = user.photo
