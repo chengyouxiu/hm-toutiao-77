@@ -59,6 +59,7 @@ export default {
     return {
       // 文章表单
       articleForm: {
+        mobile: '',
         title: null,
         content: null,
         cover: {
